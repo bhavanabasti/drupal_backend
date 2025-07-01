@@ -1,0 +1,8 @@
+name: 'User API'
+type: module
+description: 'Custom API to register and log in users via Flutter'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - user
+

@@ -1,0 +1,9 @@
+name: 'Configuration entity static cache test'
+type: module
+package: Testing
+# version: VERSION
+
+# Information added by Drupal.org packaging script on 2024-12-17
+version: '10.4.0'
+project: 'drupal'
+datestamp: 1734475255

@@ -1,0 +1,20 @@
+uuid: 3b5919c9-36f0-4ee9-b09c-401c3f524e25
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_mobile
+  module:
+    - user
+id: user.user.field_mobile
+field_name: field_mobile
+entity_type: user
+bundle: user
+label: mobile_number
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

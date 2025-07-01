@@ -1,0 +1,3 @@
+access user_api content:
+  title: 'Access User API'
+  description: 'Allow access to custom user_api routes like login_qr.'

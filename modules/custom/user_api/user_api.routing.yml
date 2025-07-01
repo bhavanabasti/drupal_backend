@@ -1,0 +1,17 @@
+user_api.register:
+  path: '/api/register'
+  defaults:
+    _controller: '\Drupal\user_api\Controller\UserApiController::register'
+    _format: 'json'
+  requirements:
+    _access: 'TRUE'
+
+user_api.login_qr:
+  path: '/api/login_qr'
+  defaults:
+    _controller: '\Drupal\user_api\Controller\UserApiController::login'
+    _title: 'Login QR'
+  requirements:
+    _permission: 'access content'
+
+
