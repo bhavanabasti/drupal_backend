@@ -1,0 +1,14 @@
+services:
+  qrcode_fields.qrimage:
+    class: Drupal\qrcode_fields\Service\QRImage
+    arguments:
+      - "@plugin.manager.qrcode_fields"
+      - "@token"
+      - "@config.factory"
+  plugin.manager.qrcode_fields:
+    class: Drupal\qrcode_fields\QRUrlServicePluginManager
+    parent: default_plugin_manager
+    arguments:
+      - "@container.namespaces"
+      - "@cache.discovery"
+      - "@module_handler"

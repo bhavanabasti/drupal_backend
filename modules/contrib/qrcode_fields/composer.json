@@ -1,0 +1,14 @@
+{
+    "name": "drupal/qrcode_fields",
+    "description": "Generate QR codes and display based on specified fields",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "require": {
+      "drupal/token": "^1.11"
+    },
+    "authors": [
+        {
+            "name": "Sujan Shrestha"
+        }
+    ]
+}

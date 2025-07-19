@@ -1,0 +1,2 @@
+* For the full list of fixes in the latest release,
+visit: https://www.drupal.org/project/qrcode_fields/releases

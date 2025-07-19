@@ -1,0 +1,14 @@
+name: "QR Code Fields"
+type: module
+description: "Generate QR codes and display based on specified fields"
+package: "QR Code"
+core_version_requirement: ^10 || ^11
+dependencies:
+  - token:token
+  - drupal:block
+  - drupal:field
+
+# Information added by Drupal.org packaging script on 2025-01-31
+version: '2.1.3'
+project: 'qrcode_fields'
+datestamp: 1738342225

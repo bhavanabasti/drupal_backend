@@ -16,13 +16,16 @@
     ],
     "require": {
         "composer/installers": "^2.0",
+        "drupal/admin_toolbar": "^3.6",
         "drupal/bootstrap5": "^4.0",
         "drupal/core-composer-scaffold": "^10.4",
         "drupal/core-project-message": "^10.4",
         "drupal/core-recommended": "^10.4",
         "drupal/core-vendor-hardening": "^10.4",
+        "drupal/qrcode_fields": "^2.1",
         "drupal/restui": "^1.22",
-        "drush/drush": "^13.6"
+        "drush/drush": "^13.6",
+        "endroid/qr-code": "^6.0"
     },
     "conflict": {
         "drupal/drupal": "*"
