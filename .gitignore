@@ -1,0 +1,9 @@
+/vendor/
+/core/
+/sites/default/settings.php
+/sites/default/files/
+/node_modules/
+*.log
+*.tar.gz
+*.zip
+*.sql
