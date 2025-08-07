@@ -1,0 +1,360 @@
+<?php
+
+namespace Drupal\user_api\Controller;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\user\Entity\User;
+use Drupal\node\Entity\Node; 
+use Drupal\user_api\Entity\Wallet; 
+use Drupal\Component\Uuid\Php as UuidService;
+
+class UserApiController {
+
+  public function register(Request $request) {
+    $data = json_decode($request->getContent(), true);
+    $name = $data['name'] ?? '';
+    $mobile = $data['mobile_number'] ?? '';
+
+    if (empty($name) || empty($mobile)) {
+      return new JsonResponse([
+        'success' => false,
+        'message' => 'Missing name or mobile',
+      ]);
+    }
+
+    // Check if mobile already exists using field_mobile.
+    $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+    $query->accessCheck(FALSE);
+    $query->condition('field_mobile', $mobile);
+    $uids = $query->execute();
+
+    if (!empty($uids)) {
+      return new JsonResponse([
+        'success' => false,
+        'message' => 'Mobile number already registered',
+      ], 409);
+    }
+
+    // Also check if username (name field) already exists.
+    $existing_user = \Drupal::entityTypeManager()
+      ->getStorage('user')
+      ->loadByProperties(['name' => $name]);
+
+
+    if (!empty($existing_user)) {
+      return new JsonResponse([
+        'success' => false,
+        'message' => 'Username already exists',
+      ], 409);
+    }
+
+    // Create a new user
+      $user = User::create([
+      'name' => $name, // actual user name
+      'mail' => $mobile . '@example.com',
+      'field_full_name' => $name, // optional if you want full name separately
+      'field_mobile' => $mobile,
+      'status' => 1,
+    ]);
+    $user->save();
+
+    return new JsonResponse([
+      'success' => true,
+      'nid' => $user->id(),
+    ]);
+  }
+
+  
+public function login_qr(Request $request) {
+  $data = json_decode($request->getContent(), TRUE);
+  $mobile = $data['mobile'] ?? '';
+
+  if (empty($mobile)) {
+    return new JsonResponse([
+      'success' => false,
+      'message' => 'Mobile number is required',
+    ], 400);
+  }
+
+  $query = \Drupal::entityTypeManager()->getStorage(entity_type_id: 'user')->getQuery();
+  $query->accessCheck(FALSE);
+  $query->condition('field_mobile', $mobile);
+  $uids = $query->execute();
+
+  if (!empty($uids)) {
+    $uid = reset($uids);
+
+    // ✅ Check if wallet exists using entity storage
+    $wallet_storage = \Drupal::entityTypeManager()->getStorage('wallet');
+    $wallets = $wallet_storage->loadByProperties(['uid' => $uid]);
+
+    if (empty($wallets)) {
+      // ✅ Create wallet using Drupal's API (automatically handles uuid, created, changed)
+      $wallet = $wallet_storage->create([
+        'uid' => $uid,
+        'balance' => 0.00,
+      ]);
+      $wallet->save();
+    }
+
+  // $user = \Drupal\user\Entity\User::load($uid);
+  //   if ($user) {
+  //     $user->set('field_last_login', \Drupal::time()->getCurrentTime());
+  //     $user->save();
+  //   }
+
+  $user = \Drupal\user\Entity\User::load($uid);
+  if ($user) {
+    $user->set('field_last_login', \Drupal::time()->getCurrentTime());
+    $user->save();
+  }
+
+    return new JsonResponse([
+      'success' => true,
+      'uid' => $uid,
+     'username' => $user->get(field_name:'name')->value,   
+    ]);
+  }
+
+  return new JsonResponse([
+    'success' => false,
+    'message' => 'User not found',
+  ], 404);
+}
+
+
+// public function saveEnergyReading(Request $request) {
+//   $data = json_decode($request->getContent(), TRUE);
+
+//   // Fallback for GET requests
+//   if (empty($data)) {
+//     $data = [
+//       'username' => $request->query->get('username'),
+//       'voltage' => $request->query->get('vol'),
+//       'current' => $request->query->get('curr'),
+//       'power' => $request->query->get('pow'),
+//       'energy' => $request->query->get('energy'),
+//       'amount' => $request->query->get('amount'),
+//     ];
+//   }
+
+//   $username = $data['username'] ?? '';
+//   $voltage = $data['voltage'] ?? '';
+//   $current = $data['current'] ?? '';
+//   $power = $data['power'] ?? '';
+//   $energy = $data['energy'] ?? '';
+//   $amount = $data['amount'] ?? '';
+
+//   \Drupal::logger('user_api')->info('Received reading data: @data', ['@data' => print_r($data, TRUE)]);
+
+//   try {
+//     $uids = \Drupal::entityQuery('user')
+//       ->condition('name', $username)
+//       ->accessCheck(false)
+//       ->execute();
+
+//     $user = !empty($uids) ? User::load(reset($uids)) : NULL;
+
+//     $fields = [
+//       'type' => 'energy_readings_of_user',
+//       'title' => 'Energy Reading for ' . $username,
+//       'field_uid' => $username,
+//       'field_voltage' => $voltage,
+//       'field_current' => $current,
+//       'field_power' => $power,
+//       'field_energy' => $energy,
+//       'field_amount' => $amount,
+//     ];
+
+//     if ($user) {
+//       $fields['field_energy_user'] = ['target_id' => $user->id()];
+//     }
+
+//     $node = Node::create($fields);
+//     $node->save();
+
+//     \Drupal::logger('user_api')->info('Energy reading node created: @nid', ['@nid' => $node->id()]);
+
+//     return new JsonResponse(['status' => 'success', 'message' => 'Reading saved.']);
+//   } catch (\Exception $e) {
+//     \Drupal::logger('user_api')->error('Error saving reading: @error', ['@error' => $e->getMessage()]);
+//     return new JsonResponse(['status' => 'error', 'message' => $e->getMessage()], 500);
+//   }
+// }
+
+
+
+
+ public function saveEnergyReading(Request $request) {
+  $data = [
+    'username' => $request->query->get('username'),
+    'deviceid' => $request->query->get('deviceid'),
+    'voltage' => $request->query->get('vol'),
+    'current' => $request->query->get('curr'),
+    'power' => $request->query->get('pow'),
+    'energy' => $request->query->get('energy'),
+    'amount' => $request->query->get('amount'),
+  ];
+
+  \Drupal::logger('vehicle_app')->info('Received: @data', ['@data' => print_r($data, TRUE)]);
+
+  try {
+    $username = $data['username'];
+    $uids = \Drupal::entityQuery('user')
+      ->condition('name', $username)
+      ->accessCheck(FALS      ->execute();
+
+    $user = !empty($uids) ? \Drupal\user\Entity\User::load(reset($uids)) : NULL;
+
+    $node_fields = [
+      'type' => 'energy_readings_of_user',
+      'title' => 'Reading for ' . $username,
+      'field_uid' => $username,
+
+      'field_voltage' => $data['voltage'],
+      'field_current' => $data['current'],
+      'field_power' => $data['power'],
+      'field_energy' => $data['energy'],
+      'field_amount' => $data['amount'],
+    ];
+
+    if ($user) {
+      $node_fields['field_energy_user'] = ['target_id' => $user->id()];
+    }
+
+    $node = \Drupal\node\Entity\Node::create($node_fields);
+    $node->save();
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse([
+      'status' => 'success',
+      'nid' => $node->id()
+    ], 200);
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('vehicle_app')->error('Save error: @msg', ['@msg' => $e->getMessage()]);
+    return new \Symfony\Component\HttpFoundation\JsonResponse([
+      'status' => 'error',
+      'message' => $e->getMessage()
+    ], 500);
+  }
+}
+
+public function save_device_data(Request $request) {
+    // Decode the JSON payload
+    $data = json_decode($request->getContent(), true);
+    
+    // Check for JSON decoding errors
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return new JsonResponse(['success' => false, 'message' => 'Invalid JSON payload'], 400);
+    }
+
+    $username = $data['username'] ?? '';
+    $deviceId = $data['device_id'] ?? '';
+
+    if (empty($username) || empty($deviceId)) {
+        return new JsonResponse(['success' => false, 'message' => 'Missing username or device_id'], 400);
+    }
+
+    // Find the user by username
+    $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+    $query->condition('name', $username);
+    $uids = $query->execute();
+
+    if (!empty($uids)) {
+        $uid = reset($uids);
+        
+        // Create a new node of the content type "Device ID"
+        $deviceNode = \Drupal\node\Entity\Node::create([
+            'type' => 'device_id', // Replace with your content type machine name
+            'title' => 'Device ID for ' . $username,
+            'field_device_id' => $deviceId, // Assuming you have a field for device ID
+            'uid' => $uid, // Set the user ID
+        ]);
+        
+        // Save the node
+        try {
+            $deviceNode->save();
+            return new JsonResponse(['success' => true, 'message' => 'Device ID saved as a node.']);
+        } catch (\Exception $e) {
+            \Drupal::logger('user_api')->error('Error saving device ID node: @message', ['@message' => $e->getMessage()]);
+            return new JsonResponse(['success' => false, 'message' => 'Error saving device ID'], 500);
+        }
+    }
+
+    return new JsonResponse(['success' => false, 'message' => 'User  not found'], 404);
+}
+
+
+// public function saveData(Request $request) {
+//   $device_id = $request->request->get('device_id');
+//   $username = $request->request->get('username');
+
+//   if (!$device_id || !$username) {
+//     return new JsonResponse(['error' => 'Missing parameters'], 400);
+//   }
+
+//   // Create a new node of type 'device_log'
+//   $node = Node::create([
+//     'type' => 'device_log',
+//     'title' => 'Device log - ' . $device_id,
+//     'field_device_id' => $device_id,
+//     'field_username' => $username,
+//   ]);
+//   $node->save();
+
+//   return new JsonResponse(['status' => 'success']);
+// }
+
+public function device_event(Request $request) {
+  $data = json_decode($request->getContent(), TRUE);
+  $username = $data['username'] ?? '';
+  $device_id = $data['device_id'] ?? '';
+
+  if (empty($username) || empty($device_id)) {
+    return new JsonResponse([
+      'success' => false,
+      'message' => 'Missing username or device ID',
+    ], 400);
+  }
+
+  // Load user by username
+  $users = \Drupal::entityTypeManager()
+    ->getStorage('user')
+    ->loadByProperties(['name' => $username]);
+
+  if (empty($users)) {
+    return new JsonResponse([
+      'success' => false,
+      'message' => 'User not found',
+    ], 404);
+  }
+
+  $user = reset($users);
+
+  try {
+    // Create a node of type device_event_log
+    $node = Node::create([
+      'type' => 'device_event_log',
+      'title' => 'Device event for ' . $username . ' - ' . $device_id,
+      'field_user' => ['target_id' => $user->id()],
+      'field_device' => $device_id,
+      'field_scanned_time' => date('c'), // ISO 8601 format
+    ]);
+    $node->save();
+
+    return new JsonResponse([
+      'success' => true,
+      'message' => 'Device usage logged successfully',
+      'nid' => $node->id(),
+    ]);
+  }
+  catch (\Exception $e) {
+    return new JsonResponse([
+      'success' => false,
+      'message' => 'Error saving event: ' . $e->getMessage(),
+    ], 500);
+  }
+}
+
+}

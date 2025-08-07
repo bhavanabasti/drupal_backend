@@ -19,8 +19,36 @@ user_api.save_energy_reading:
   path: '/api/save-energy-reading'
   defaults:
     _controller: '\Drupal\user_api\Controller\UserApiController::saveEnergyReading'
+    _format: 'json'
     _title: 'Save Energy Reading'
+  methods: [GET, POST]
+  requirements:
+    _access: 'TRUE'
+
+# user_api.save_device_data:
+#   path: '/api/save_device_data'
+#   defaults:
+#     _controller: '\Drupal\user_api\Controller\UserApiController::save_device_data'
+#     _format: 'json'
+#     _title: 'Save Device Data'
+#   methods: [POST]
+#   requirements:
+#     _access: 'TRUE'
+
+user_api.device_verification:
+  path: '/api/device_verification'
+  defaults:
+    _controller: '\Drupal\user_api\Controller\UserApiController::verifyDevice'
+    _title: 'Device Verification'
   methods: [POST]
   requirements:
     _access: 'TRUE'
 
+user_api.device_event_log:
+  path: '/api/device_event_log'
+  defaults:
+    _controller: '\Drupal\user_api\Controller\UserApiController::logDeviceEvent'
+    _title: 'Device Event Log'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
