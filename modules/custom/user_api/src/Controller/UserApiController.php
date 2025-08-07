@@ -176,7 +176,4 @@ public function saveEnergyReading(Request $request) {
 }
 
 
-
-
-
 }
