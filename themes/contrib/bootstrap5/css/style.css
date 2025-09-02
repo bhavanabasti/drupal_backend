@@ -8492,10 +8492,16 @@ textarea.form-control-lg {
   color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-light {
+.text-light
+ {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
+}
+
+/* .text-light {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
-}
+} */
 
 .text-dark {
   --bs-text-opacity: 1;
@@ -8792,11 +8798,15 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-dark {
+/* .bg-dark {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
-}
+} */
 
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: rgb(33 33 41 / 64%) !important;
+}
 .bg-black {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
@@ -12817,4 +12827,80 @@ code {
   overflow-y: auto;
 }
 
-/*# sourceMappingURL=style.css.map */
+/* ========================
+   Mobile styles (≤767px)
+   ======================== */
+@media (max-width: 767px) {
+  /* Stack menu items vertically */
+  .navbar .menu--main {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .navbar .menu--main li {
+    margin: 6px 0;
+  }
+
+  .navbar .menu--main li a {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Example: turn "My account" and "Log out" into buttons */
+  .navbar .menu--main li.menu-item--my-account a,
+  .navbar .menu--main li.menu-item--logout a {
+    background: #667c51;
+    color: #fff;
+    font-weight: bold;
+  }
+}
+
+/* ========================
+   Tablet styles (768–991px)
+   ======================== */
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar .menu--main {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
+/* Desktop - leave as is */
+/* Desktop - leave as is */
+#block-bootstrap5-rightlogo {
+  display: block;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  /* Hide TIFR inside collapsed menu */
+  .navbar-collapse #block-bootstrap5-rightlogo {
+    display: none !important;
+  }
+
+  /* Position TIFR before hamburger */
+  header.navbar {
+    position: relative;
+  }
+
+  /* Place the TIFR logo inline before toggler */
+  #block-bootstrap5-rightlogo {
+    position: absolute;
+    right: 50px;   /* push it left, just before hamburger */
+    top: 8px;      /* align vertically with navbar */
+    height: 32px;  /* smaller for mobile */
+    width: auto;
+    display: block !important;
+    z-index: 1050;
+  }
+}
+

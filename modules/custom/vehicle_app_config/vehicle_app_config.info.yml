@@ -1,0 +1,5 @@
+name: 'Vehicle App Config'
+type: module
+description: 'Provides a config form to set the energy rate.'
+core_version_requirement: ^10
+package: Custom

@@ -1,0 +1,6 @@
+scanner:
+  js:
+    js/qr_scanner_simple.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings

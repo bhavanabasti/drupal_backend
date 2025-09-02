@@ -1,0 +1,7 @@
+name: 'Webcam QR Scanner'
+type: module
+description: 'Custom module to scan QR codes using mobile camera.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:system

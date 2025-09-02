@@ -1,0 +1,11 @@
+<div class="qrscan-simple" style="display:grid;gap:12px;max-width:640px">
+  <video id="qrs-video" autoplay playsinline muted style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#111"></video>
+  <canvas id="qrs-canvas" hidden></canvas>
+  <div style="display:grid;gap:6px">
+    <label for="qrs-result"></label>
+    <input id="qrs-result" type="text" style="padding:8px;border:1px;border-radius:6px">
+  </div>
+  <div id="qrs-status" style="color:#666;font-size:.95rem">Opening camera…</div>
+  <div id="scan-message" style="margin-top:10px; font-weight:bold; color:green;"></div>
+
+</div>

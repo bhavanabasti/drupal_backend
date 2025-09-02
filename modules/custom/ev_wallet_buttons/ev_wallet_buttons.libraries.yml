@@ -1,0 +1,14 @@
+html5_qrcode_lib:
+  version: 1.0
+  js:
+    https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js: { type: external }
+
+qr_scanner:
+  version: 1.0
+  js:
+    js/qr_scanner.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    - ev_wallet_buttons/html5_qrcode_lib

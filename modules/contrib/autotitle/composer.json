@@ -1,0 +1,31 @@
+{
+    "name": "drupal/autotitle",
+    "type": "drupal-module",
+    "description": "Provides a way to automatically generate the title of a node based on its fields.",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "homepage": "https://www.drupal.org/project/autotitle",
+    "authors": [
+        {
+            "name": "Mariusz Andrzejewski (sayco)",
+            "homepage": "https://www.drupal.org/u/sayco",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Marco Fernandes",
+            "homepage": "https://www.drupal.org/u/marcofernandes",
+            "role": "maintainer"
+        },
+        {
+            "name": "Roberto Ornelas",
+            "homepage": "https://www.drupal.org/u/roborn",
+            "role": "maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/autotitle"
+    },
+    "require": {
+        "drupal/core": "^8.0 || ^9.0 || ^10"
+    }
+}

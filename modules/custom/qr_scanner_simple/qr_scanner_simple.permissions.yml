@@ -1,0 +1,3 @@
+access qr scanner simple:
+  title: 'Access simple QR scanner'
+  description: 'Allow users to open the camera and scan QR codes.'

@@ -1,0 +1,16 @@
+qr_scanner_simple.scan:
+  path: '/qr-scanner-simple'
+  defaults:
+    _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::page'
+    _title: 'QR Scanner (Simple)'
+  requirements:
+    _access: 'TRUE'
+
+
+qr_scanner_simple.scan_submit:
+    path: '/qr-scanner-simple/submit'
+    defaults:
+      _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::submit'
+    requirements:
+      _permission: 'access content'
+    methods: [POST]

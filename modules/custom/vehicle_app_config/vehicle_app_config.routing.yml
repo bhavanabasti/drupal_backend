@@ -1,0 +1,7 @@
+vehicle_app_config.settings:
+  path: '/admin/config/vehicle-app/settings'
+  defaults:
+    _form: '\Drupal\vehicle_app_config\Form\VehicleAppSettingsForm'
+    _title: 'Vehicle App Settings'
+  requirements:
+    _permission: 'administer site configuration'

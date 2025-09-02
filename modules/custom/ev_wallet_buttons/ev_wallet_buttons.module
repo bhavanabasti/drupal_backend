@@ -1,0 +1,22 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function ev_wallet_buttons_preprocess_page(array &$variables) {
+  // Only load on your QR page
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'ev_wallet_buttons.content') {
+    $variables['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => 'https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js',
+        ],
+      ],
+      'html5_qrcode_lib'
+    ];
+  }
+}

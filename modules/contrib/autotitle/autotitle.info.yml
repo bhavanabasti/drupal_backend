@@ -1,0 +1,9 @@
+name: Autotitle
+description: "Automatically generate titles from node content headings. Needs to be activated on the content type."
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+
+# Information added by Drupal.org packaging script on 2024-02-09
+version: '8.x-1.3'
+project: 'autotitle'
+datestamp: 1707520245

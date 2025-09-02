@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function ev_wallet_buttons_theme($existing, $type, $theme, $path) {
+  return [
+    'camera_qr' => [
+      'variables' => [],
+      'template' => 'camera-qr',
+    ],
+  ];
+}

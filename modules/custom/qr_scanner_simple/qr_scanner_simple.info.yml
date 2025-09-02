@@ -1,0 +1,5 @@
+name: 'QR Scanner Simple'
+type: module
+description: 'Opens the camera and continuously scans QR codes; shows result in a text field.'
+package: Custom
+core_version_requirement: ^10

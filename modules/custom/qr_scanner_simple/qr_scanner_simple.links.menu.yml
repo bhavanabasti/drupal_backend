@@ -1,0 +1,6 @@
+qr_scanner_simple.scan:
+  title: 'QR Scanner (Simple)'
+  description: 'Open camera and scan a QR code; result shown below.'
+  route_name: qr_scanner_simple.scan
+  menu_name: main
+  weight: 0

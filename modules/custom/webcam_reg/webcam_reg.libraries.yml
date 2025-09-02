@@ -1,0 +1,7 @@
+qrscanner:
+  js:
+    https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js: { type: external }
+    js/qrscanner.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

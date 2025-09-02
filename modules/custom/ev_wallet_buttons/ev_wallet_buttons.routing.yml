@@ -1,0 +1,26 @@
+ev_wallet_buttons.content:
+  path: '/ev-wallet-buttons'
+  defaults:
+    _controller: '\Drupal\ev_wallet_buttons\Controller\EvWalletButtonsController::content'
+    _title: 'EV Wallet Buttons'
+  requirements:
+    _permission: 'access content'
+
+# ev_wallet_buttons.history:
+#   path: '/ev-wallet-history'
+#   defaults:
+#     _controller: '\Drupal\ev_wallet_buttons\Controller\EvWalletButtonsController::history'
+#     _title: 'Your Bill History'
+#   requirements:
+#     _permission: 'access content'
+
+# ev_wallet_buttons.scanner:
+#   path: '/ev-wallet-scanner'
+#   defaults:
+#     _controller: '\Drupal\ev_wallet_buttons\Controller\EvWalletButtonsController::scannerPage'
+#     _title: 'QR Code Scanner'
+#   requirements:
+#     _permission: 'access content'
+
+
+

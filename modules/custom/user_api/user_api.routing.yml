@@ -35,20 +35,60 @@ user_api.save_energy_reading:
 #   requirements:
 #     _access: 'TRUE'
 
-user_api.device_verification:
-  path: '/api/device_verification'
+# user_api.device_verification:
+#   path: '/api/device_verification'
+#   defaults:
+#     _controller: '\Drupal\user_api\Controller\UserApiController::verifyDevice'
+#     _title: 'Device Verification'
+#   methods: [POST]
+#   requirements:
+#     _access: 'TRUE'
+
+
+# user_api.device_event_log:
+#   path: '/api/device_event_log'
+#   defaults:
+#     _controller: '\Drupal\user_api\Controller\UserApiController::logDeviceEvent'
+#     _title: 'Device Event Log'
+#   methods: [POST]
+#   requirements:
+#     _access: 'TRUE'
+
+user_api.log_device_event:
+  path: '/api/device_event_log'
   defaults:
-    _controller: '\Drupal\user_api\Controller\UserApiController::verifyDevice'
-    _title: 'Device Verification'
+    _controller: '\Drupal\user_api\Controller\UserApiController::deviceEventLog'
+    _title: 'Log device event'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+user_api.login:
+  path: '/api/login'
+  defaults:
+    _controller: '\Drupal\user_api\Controller\UserApiController::login'
+    _title: 'Login'
   methods: [POST]
   requirements:
     _access: 'TRUE'
 
-user_api.device_event_log:
-  path: '/api/device_event_log'
+user_api.current_user:
+  path: '/api/current-user'
   defaults:
-    _controller: '\Drupal\user_api\Controller\UserApiController::logDeviceEvent'
-    _title: 'Device Event Log'
-  methods: [POST]
+    _controller: '\Drupal\user_api\Controller\UserApiController::currentUser'
+    _title: 'Current User'
+  methods: [GET]
   requirements:
     _access: 'TRUE'
+
+
+user_api.session_status:
+  path: '/api/session-status'
+  defaults:
+    _controller: '\Drupal\user_api\Controller\SessionStatusController::check'
+    _title: 'Session Status'
+  requirements:
+    _access: 'TRUE'
+
+
+    

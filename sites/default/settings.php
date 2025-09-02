@@ -909,3 +909,9 @@ $config['system.logging']['error_level'] = 'verbose';
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 error_reporting(E_ALL);
+/**
+ * JWT Authentication keys.
+ * Private key should be readable only by www-data.
+ */
+$settings['jwt_key'] = '/var/www/private/jwt.key';
+$settings['jwt_key_pub'] = '/var/www/private/jwt.key.pub';

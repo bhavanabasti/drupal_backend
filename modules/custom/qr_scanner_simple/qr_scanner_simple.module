@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the QR Scanner Simple module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function qr_scanner_simple_theme() {
+  return [
+    'qr_scanner_simple_page' => [
+      'render element' => 'elements',
+      'template' => 'qr-scanner-simple-page',
+    ],
+  ];
+}

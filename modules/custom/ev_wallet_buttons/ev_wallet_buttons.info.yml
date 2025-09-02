@@ -1,0 +1,5 @@
+name: 'EV Wallet Buttons'
+type: module
+description: 'Adds a QR scanner page for wallet app.'
+core_version_requirement: ^10
+package: Custom

@@ -1,0 +1,7 @@
+webcam_reg.qr_page:
+  path: '/qr-scanner'
+  defaults:
+    _controller: '\Drupal\webcam_reg\Controller\QrScannerController::scannerPage'
+    _title: 'QR Scanner'
+  requirements:
+    _permission: 'access content'
